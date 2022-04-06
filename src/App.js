@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import {Link, Route, Switch} from 'react-router-dom';
 import { Navbar, Container, Nav, NavDropdown, Jumbotron, Button  } from 'react-bootstrap';
 import './App.css';
-import db from './db/data.js';
+import db from './db/Data.js';
 import Row from './component/Row.js';
 import Detail from './component/Detail';
-
+import axios from 'axios';
 function App() {
-
+  console.log('app.js');
   let [shoes, shoes변경] = useState(db);
+  let [재고, 재고변경] = useState([10, 11, 12]);
+
 
   return (
     <div className="App">
@@ -19,8 +21,8 @@ function App() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link><Link to="/">Home</Link></Nav.Link>
-              <Nav.Link><Link to="/detail">Detail</Link></Nav.Link>
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -32,9 +34,6 @@ function App() {
           </Navbar.Collapse>
         </Container>
     </Navbar>
-
-   
-    
 
     <Switch>
       <Route exact path="/">
@@ -56,10 +55,24 @@ function App() {
               })
             }
           </div>
+          <button className='btn btn-primary' onClick={()=> {
+
+            
+            axios.get('https://codingapple1.github.io/shop/data2.json')
+            .then((result)=> {
+              shoes변경([...shoes, ...result.data]);
+            })
+            .catch(() => {
+              console.log('fail');
+            });
+          }}>더보기</button>
         </div>
       </Route>
+
+
+
       <Route path="/detail/:id">
-        <Detail shoes ={shoes} />
+        <Detail shoes ={shoes} 재고= {재고} 재고변경={재고변경} />
       </Route>
 
       <Route path="/:id">
