@@ -6,6 +6,7 @@ import db from './db/Data.js';
 import Row from './component/Row.js';
 import Detail from './component/Detail';
 import axios from 'axios';
+import Cart from './component/Cart';
 function App() {
   console.log('app.js');
   let [shoes, shoes변경] = useState(db);
@@ -74,7 +75,9 @@ function App() {
       <Route path="/detail/:id">
         <Detail shoes ={shoes} 재고= {재고} 재고변경={재고변경} />
       </Route>
-
+      <Route path="/cart">
+        <Cart/>
+      </Route>
       <Route path="/:id">
           <div>아무거나 </div>      
       </Route>
